@@ -17,7 +17,7 @@ def get_status(user_id):
         'v': 5.92,
         'fields': 'online',
     }
-    user_status = requests.post('https://api.vk.com/method/users.get', params)
+    user_status = requests.post('https://api.vk.com/method/users.get', params).json()['response'][0]['online']
     return user_status
 
 
