@@ -12,12 +12,12 @@ load_dotenv()
 def get_status(user_id):
     access_token = os.getenv('access_token')
     params = {
-        'user_id': user_id,
+        'user_ids': user_id,
         'access_token': access_token,
         'v': 5.92,
         'fields': 'online',
     }
-    user_status = requests.post('https://api.vk.com/method/users.get', params).json()['response'][0]['online']
+    user_status = requests.post('https://api.vk.com/method/users.get', params=params).json()['response'][0]['online']
     return user_status
 
 
@@ -32,11 +32,10 @@ def sms_sender(sms_text):
         from_=number_from,
         body=sms_text,
     )
-    return message.sid  # Верните sid отправленного сообщения из Twilio
+    return message.sid
 
 
 if __name__ == '__main__':
-    # тут происходит инициализация Client
     vk_id = input('Введите id ')
     while True:
         if get_status(vk_id) == 1:
