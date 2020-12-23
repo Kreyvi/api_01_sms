@@ -26,11 +26,11 @@ def get_status(user_id):
         'fields': 'online',
     }
     try:
-        user_status_request = requests.post(f'{API_URL}{METHODS["users.get"]}', params=params)
+        user_status_request = requests.post(f'{API_URL}{METHODS["users.get"]}', params=params).json()
     except requests.RequestException:
         print('Что-то пошло не так ((')
         raise sys.exit()
-    user_status = user_status_request.json()['response'][0]['online']
+    user_status = user_status_request['response'][0]['online']
     return user_status
 
 
@@ -44,10 +44,10 @@ def sms_sender(sms_text, client):
 
 
 if __name__ == '__main__':
-    client = Client(acc_sid, auth_token)
+    msg_client = Client(acc_sid, auth_token)
     vk_id = input('Введите id ')
     while True:
         if get_status(vk_id) == 1:
-            sms_sender(f'{vk_id} сейчас онлайн!'.client)
+            sms_sender(f'{vk_id} сейчас онлайн!', msg_client)
             break
         time.sleep(5)
